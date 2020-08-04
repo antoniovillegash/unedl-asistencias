@@ -135,7 +135,7 @@ class Signup extends Component {
             let redirect = this.state.redirect
             let fields = this.state.fields;
 
-            await axios.post(process.env.REACT_APP_MAIN_IP + ':'+process.env.BACKEND_PORT+'/api/users/signup', {
+            await axios.post(process.env.REACT_APP_MAIN_IP + '/api/users/signup', {
                 name: fields.name,
                 email: fields.email,
                 password: fields.password
