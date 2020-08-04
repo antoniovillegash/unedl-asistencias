@@ -113,13 +113,13 @@ class Login extends Component {
 
             let fields = this.state.fields;
             console.log({
-                url:process.env.REACT_APP_MAIN_IP +':'+ (process.env.PORT || '3000'),
+                url:process.env.MAIN_IP,
                 email: fields.email,
 
             })
 
             await axios.post(process.env.REACT_APP_MAIN_IP + '/api/users/reset', {
-                url:process.env.REACT_APP_MAIN_IP +':'+ (process.env.PORT || '3000') ,
+                url:process.env.MAIN_IP ,
                 email: fields.email,
 
             })
