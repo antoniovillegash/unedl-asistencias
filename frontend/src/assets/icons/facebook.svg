@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="5.2916737mm"
+   height="5.2705302mm"
+   viewBox="0 0 5.2916737 5.2705302"
+   version="1.1"
+   id="svg1563"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="facebook.svg">
+  <defs
+     id="defs1557" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.6280212"
+     inkscape:cx="29.810664"
+     inkscape:cy="-8.1592864"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1560">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-63.743895,-134.93905)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 66.389728,134.93905 c -1.455208,0 -2.645833,1.18798 -2.645833,2.65112 0,1.32292 0.968375,2.42094 2.233083,2.61938 v -1.85208 h -0.672041 v -0.7673 h 0.672041 v -0.58472 c 0,-0.66411 0.39423,-1.02923 1.000125,-1.02923 0.288396,0 0.590021,0.0503 0.590021,0.0503 v 0.65352 h -0.333375 c -0.328083,0 -0.431271,0.20373 -0.431271,0.41275 v 0.49741 h 0.735542 l -0.119062,0.7673 h -0.61648 v 1.85208 a 2.6458333,2.6458333 0 0 0 2.233084,-2.61938 c 0,-1.46314 -1.190625,-2.65112 -2.645834,-2.65112 z"
+       id="path2"
+       style="fill:#364f6b;fill-opacity:1;stroke-width:0.26458332" />
+  </g>
+</svg>
