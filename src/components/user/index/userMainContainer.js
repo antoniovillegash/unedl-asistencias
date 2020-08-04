@@ -125,7 +125,7 @@ function UserMainContainer(props) {
   }
 
   // const getNotifications = () => {
-  //   Axios.get(process.env.REACT_APP_MAIN_IP + ':4000/api/notifications/count/'
+  //   Axios.get(process.env.REACT_APP_MAIN_IP + ':'+process.env.BACKEND_PORT+'/api/notifications/count/'
   //     , {
   //       headers: {
   //         Authorization: 'bearer ' + localStorage.getItem('token')

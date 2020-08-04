@@ -168,7 +168,7 @@ class Signup extends Component {
             let fields = this.state.fields;
             console.log(fields.password)
 
-            await axios.put(process.env.REACT_APP_MAIN_IP + ':4000/api/users/reset', {
+            await axios.put(process.env.REACT_APP_MAIN_IP + ':'+process.env.BACKEND_PORT+'/api/users/reset', {
                 password: fields.password
 
             },{

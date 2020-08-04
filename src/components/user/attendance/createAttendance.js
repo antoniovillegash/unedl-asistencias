@@ -267,7 +267,7 @@ class createArticle extends Component {
                 })
             }
             
-            await axios.post(process.env.REACT_APP_MAIN_IP + ':4000/api/attendance', {
+            await axios.post(process.env.REACT_APP_MAIN_IP + ':'+process.env.BACKEND_PORT+'/api/attendance', {
                 name: fields.name,
                 shift: fields.shift,
                 lesson: fields.lesson,

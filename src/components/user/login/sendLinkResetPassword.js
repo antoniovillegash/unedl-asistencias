@@ -118,7 +118,7 @@ class Login extends Component {
 
             })
 
-            await axios.post(process.env.REACT_APP_MAIN_IP + ':4000/api/users/reset', {
+            await axios.post(process.env.REACT_APP_MAIN_IP + ':'+process.env.BACKEND_PORT+'/api/users/reset', {
                 url:process.env.REACT_APP_MAIN_IP +':'+ (process.env.PORT || '3000') ,
                 email: fields.email,
 
