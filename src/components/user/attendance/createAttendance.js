@@ -17,6 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
+    KeyboardTimePicker,
 } from '@material-ui/pickers';
 
 
@@ -142,7 +143,8 @@ class createArticle extends Component {
                 },
                 isPermanent: {
                     1: false
-                }
+                },
+                hour: '0'
             },
             hasErrors: {
                 shift: false,
@@ -151,6 +153,7 @@ class createArticle extends Component {
                 links: {
                     1: false
                 },
+                hour: false
             },
             errors: {
                 shift: '',
@@ -158,11 +161,13 @@ class createArticle extends Component {
                 subject: '',
                 links: {
                     1: ''
-                }
+                },
+                hour: ''
             },
             showAlert: false,
             severityAlert: 'success',
-            selectedDate: new Date()
+            selectedDate: new Date(),
+
         };
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.handleOnClickAddLink = this.handleOnClickAddLink.bind(this);
@@ -179,7 +184,7 @@ class createArticle extends Component {
 
 
     componentDidUpdate() {
-        console.log(this.state)
+        // console.log(new Intl.DateTimeFormat('en-GB').format() + ' '+this.state.selectedDate.toString().substr(16,5))
     }
     /*Metod to read the files frmo the input file and put it 
         into the state images*/
@@ -258,7 +263,9 @@ class createArticle extends Component {
             let severityAlert = 'success'
             let fields = this.state.fields;
             let links = [];
-            
+            let selectedDate = this.state.selectedDate;
+
+
 
             for (const index of this.state.amountOfLinks) {
                 links.push({
@@ -266,12 +273,13 @@ class createArticle extends Component {
                     isPermanent: fields.isPermanent[index]
                 })
             }
-            
+
             await axios.post(process.env.REACT_APP_MAIN_IP + '/api/attendance', {
                 name: fields.name,
                 shift: fields.shift,
                 lesson: fields.lesson,
                 subject: fields.subject,
+                date: new Intl.DateTimeFormat('en-GB').format() + ' '+selectedDate.toString().substr(16,5),
                 links: links,
 
             }, {
@@ -295,7 +303,7 @@ class createArticle extends Component {
                 })
                 return 0
             }
-            
+
 
             var emptyState = {
 
@@ -332,253 +340,278 @@ class createArticle extends Component {
                 },
                 selectedDate: new Date(),
                 showAlert: true,
-                severityAlert: severityAlert
+                severityAlert: severityAlert,
+                hour: 0,
 
             }
 
-        
-        // fields = {};
-        // fields["name"] = "";
-        // fields["shift"] = "";
-        // fields["subject"] = "";
-        // fields["subject"] = "";
-        // fields["links"] = "";
-        // fields["isPermanent"] = "";
-        this.setState(emptyState);
+
+            // fields = {};
+            // fields["name"] = "";
+            // fields["shift"] = "";
+            // fields["subject"] = "";
+            // fields["subject"] = "";
+            // fields["links"] = "";
+            // fields["isPermanent"] = "";
+            this.setState(emptyState);
+        }
+
     }
 
-}
-
-validateForm() {
-    let isValid = true
-    let fields = this.state.fields
-    let hasErrors = {
-        links: {}
-    };
-    let errors = {
-        links: {}
-    };
+    validateForm() {
+        let isValid = true
+        let fields = this.state.fields
+        let hasErrors = {
+            links: {}
+        };
+        let errors = {
+            links: {}
+        };
 
 
-    if (!fields["shift"]) {
-        errors["shift"] = "Ingrese el turno";
-        hasErrors["shift"] = true;
-        isValid = false
-    }
-    if (typeof fields["shift"] !== "undefined") {
-        if (!fields["shift"].match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
-            errors["shift"] = "Ingrese caracteres válidos";
+        if (!fields["shift"]) {
+            errors["shift"] = "Ingrese el turno";
             hasErrors["shift"] = true;
             isValid = false
         }
-    }
-    if (!fields["lesson"]) {
-        errors["lesson"] = "Ingrese un nombre de asignatura";
-        hasErrors["lesson"] = true;
-        isValid = false
-    }
-    if (typeof fields["lesson"] !== "undefined") {
-        if (!fields["lesson"].match(/^[0-9a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
-            errors["lesson"] = "Ingrese caracteres válidos";
+        if (typeof fields["shift"] !== "undefined") {
+            if (!fields["shift"].match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
+                errors["shift"] = "Ingrese caracteres válidos";
+                hasErrors["shift"] = true;
+                isValid = false
+            }
+        }
+        if (!fields["lesson"]) {
+            errors["lesson"] = "Ingrese un nombre de asignatura";
             hasErrors["lesson"] = true;
             isValid = false
         }
-    }
+        if (typeof fields["lesson"] !== "undefined") {
+            if (!fields["lesson"].match(/^[0-9a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
+                errors["lesson"] = "Ingrese caracteres válidos";
+                hasErrors["lesson"] = true;
+                isValid = false
+            }
+        }
 
-    if (!fields["subject"]) {
-        errors["subject"] = "Seleccione una categoría";
-        hasErrors["subject"] = true;
-        isValid = false
-    }
-    if (typeof fields["subject"] !== "undefined") {
-        if (!fields["subject"].match(/^[0-9a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
-            errors["subject"] = "Ingrese caracteres válidos";
+        if (!fields["subject"]) {
+            errors["subject"] = "Seleccione una categoría";
             hasErrors["subject"] = true;
             isValid = false
         }
+        if (typeof fields["subject"] !== "undefined") {
+            if (!fields["subject"].match(/^[0-9a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)) {
+                errors["subject"] = "Ingrese caracteres válidos";
+                hasErrors["subject"] = true;
+                isValid = false
+            }
+        }
+        
+        this.state.amountOfLinks.forEach(index => {
+
+
+
+            if (typeof fields["links"][index] !== "undefined") {
+                if (fields["links"][index].match(/^[ ]+$/u)) {
+                    errors["links"][index] = "No es un enlace válido";
+                    hasErrors["links"][index] = true;
+                    isValid = false
+                }
+            }
+
+        });
+
+
+
+
+        this.setState({
+            hasErrors: hasErrors,
+            errors: errors
+        });
+        return isValid
+
+
     }
-    this.state.amountOfLinks.forEach(index => {
+
+    handleDateChange = (date) => {
+        this.setState({
+            selectedDate: date
+        })
+    };
+
+    render() {
 
 
+        const {
+            resMessage,
+            amountOfLinks,
+            fields,
+            hasErrors,
+            errors,
+            showAlert,
+            severityAlert,
+            selectedDate } = this.state
+        //console.log(images)
+        //the value from styles is passed to props
+        const { classes } = this.props;
+        //value where the components will be displayed
 
+        //call to function  
 
+        return (
+            <div className={classes.root}>
+                <Paper>
 
-    });
+                    <form className={classes.form} noValidate autoComplete="off" onSubmit={this.submitArticleForm}>
+                        {/*text fields*/}
+                        <Typography
+                            className={classes.title}
+                            variant="h6"
+                            align="left"
+                            color="textPrimary">
+                            {localStorage.getItem('username')}
+                        </Typography>
 
-
-
-
-    this.setState({
-        hasErrors: hasErrors,
-        errors: errors
-    });
-    return isValid
-
-
-}
-
-handleDateChange = (date) => {
-    this.setState({
-        selectedDate: date
-    })
-};
-
-render() {
-
-
-    const {
-        resMessage,
-        amountOfLinks,
-        fields,
-        hasErrors,
-        errors,
-        showAlert,
-        severityAlert,
-        selectedDate } = this.state
-    //console.log(images)
-    //the value from styles is passed to props
-    const { classes } = this.props;
-    //value where the components will be displayed
-
-    //call to function  
-
-    return (
-        <div className={classes.root}>
-            <Paper>
-
-                <form className={classes.form} noValidate autoComplete="off" onSubmit={this.submitArticleForm}>
-                    {/*text fields*/}
-                    <Typography
-                        className={classes.title}
-                        variant="h6"
-                        align="left"
-                        color="textPrimary">
-                        {localStorage.getItem('username')}
-                    </Typography>
-
-                    <Typography
-                        variant="body1"
-                        align="left"
-                        color="textPrimary">
-                        Importante
+                        <Typography
+                            variant="body1"
+                            align="left"
+                            color="textPrimary">
+                            Importante
                                 </Typography>
-                    <Typography
-                        variant="subtitle1"
-                        align="left"
-                        color="textSecondary">
-                        Horas presenciales por semana = horas virtuales por semana
+                        <Typography
+                            variant="subtitle1"
+                            align="left"
+                            color="textSecondary">
+                            Horas presenciales por semana = horas virtuales por semana
                                 </Typography>
-                    <br /><br />
-                    <Typography
-                        variant="subtitle1"
-                        align="left"
-                        color="textSecondary">
-                        materia de 1 a 3 hrs = 1hr por semana
+                        <br /><br />
+                        <Typography
+                            variant="subtitle1"
+                            align="left"
+                            color="textSecondary">
+                            materia de 1 a 3 hrs = 1hr por semana
                                 </Typography>
-                    <br />
-                    <Typography
-                        variant="subtitle1"
-                        align="left"
-                        color="textSecondary">
-                        materia de 4 a 5 hrs = 2hr por semana
+                        <br />
+                        <Typography
+                            variant="subtitle1"
+                            align="left"
+                            color="textSecondary">
+                            materia de 4 a 5 hrs = 2hr por semana
                                 </Typography>
-                    <br />
-                    <Typography
-                        variant="subtitle1"
-                        align="left"
-                        color="textSecondary">
-                        materia de 6 a 7 hrs = 3hr por semana
+                        <br />
+                        <Typography
+                            variant="subtitle1"
+                            align="left"
+                            color="textSecondary">
+                            materia de 6 a 7 hrs = 3hr por semana
                                 </Typography>
-                    <br />
-                    <Typography
-                        variant="subtitle1"
-                        align="left"
-                        color="textSecondary">
-                        materia de 8 a 9 hrs = 4hr por semana
+                        <br />
+                        <Typography
+                            variant="subtitle1"
+                            align="left"
+                            color="textSecondary">
+                            materia de 8 a 9 hrs = 4hr por semana
                                 </Typography>
-                    <br />
+                        <br />
 
 
-                    <TextField
-                        onChange={this.handleChangeField}
-                        helperText={errors.shift}
-                        value={fields.shift}
-                        error={hasErrors.shift}
+                        <TextField
+                            onChange={this.handleChangeField}
+                            helperText={errors.shift}
+                            value={fields.shift}
+                            error={hasErrors.shift}
 
-                        className={classes.wideTextField} id="shift"
-                        label="*Turno" variant="outlined" />
-                    <Typography
-                        className={classes.wideTextFieldLabel}
-                        variant="body1"
-                        align="left"
-                        color="textPrimary">
+                            className={classes.wideTextField} id="shift"
+                            label="*Turno" variant="outlined" />
+                        <Typography
+                            className={classes.wideTextFieldLabel}
+                            variant="body1"
+                            align="left"
+                            color="textPrimary">
 
-                    </Typography>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
+                        </Typography>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                                className={classes.smallTextField}
+                                disableToolbar
+                                variant="inline"
+                                format="MM/dd/yyyy"
+                                margin="normal"
+                                id="date-picker-inline"
+                                label="*Fecha"
+                                value={selectedDate}
+                                onChange={this.handleDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+
+                            <KeyboardTimePicker
                             className={classes.smallTextField}
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            label="*Fecha"
-                            value={selectedDate}
-                            onChange={this.handleDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
+                                margin="normal"
+                                id="time-picker"
+                                label="Time picker"
+                                value={selectedDate}
+                                onChange={this.handleDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change time',
+                                }}
+                            />
+                        </MuiPickersUtilsProvider>
 
 
-                    <TextField
-                        onChange={this.handleChangeField}
-                        helperText={errors.lesson}
-                        value={fields.lesson}
-                        error={hasErrors.lesson}
-
-                        className={classes.wideTextField} id="lesson"
-                        label="*Asignatura" variant="outlined" />
-
-                    <TextField
-                        onChange={this.handleChangeField}
-                        helperText={errors.subject}
-                        value={fields.subject}
-                        error={hasErrors.subject}
-
-                        className={classes.wideTextField} id="subject"
-                        label="*Tema" variant="outlined" />
 
 
-                    <div className={classes.linksContainer}>
-                        {amountOfLinks.map((index) =>
-                            <div className={classes.pairedField} key={index}>
-
-                                <Typography variant="subtitle1" paragraph>
-                                    {'Enlace ' + index}
-
-                                </Typography>
 
 
-                                <TextField
-                                    onChange={(event) => this.handleChangeFieldLink(index, event)}
-                                    value={fields.links[index]}
-                                    className={classes.pairedTextField}
-                                    id={index.toString()}
-                                    label={'Enlace'}
-                                    variant="outlined"
-                                    error={hasErrors.links[index]}
-                                    helperText={errors.links[index]} />
-                                <FormControlLabel
-                                    control={<Checkbox
-                                        checked={fields.isPermanent[index]}
+
+                        <TextField
+                            onChange={this.handleChangeField}
+                            helperText={errors.lesson}
+                            value={fields.lesson}
+                            error={hasErrors.lesson}
+
+                            className={classes.wideTextField} id="lesson"
+                            label="*Asignatura" variant="outlined" />
+
+                        <TextField
+                            onChange={this.handleChangeField}
+                            helperText={errors.subject}
+                            value={fields.subject}
+                            error={hasErrors.subject}
+
+                            className={classes.wideTextField} id="subject"
+                            label="*Tema" variant="outlined" />
+
+
+                        <div className={classes.linksContainer}>
+                            {amountOfLinks.map((index) =>
+                                <div className={classes.pairedField} key={index}>
+
+                                    <Typography variant="subtitle1" paragraph>
+                                        {'Enlace ' + index}
+
+                                    </Typography>
+
+
+                                    <TextField
+                                        onChange={(event) => this.handleChangeFieldLink(index, event)}
+                                        value={fields.links[index]}
+                                        className={classes.pairedTextField}
                                         id={index.toString()}
-                                        onChange={(event) => this.handleChangeFieldPermanent(index, event)}
-                                        name="checkedA" />}
-                                    label="permanente"
-                                />
-                                {/* <TextField
+                                        label={'Enlace'}
+                                        variant="outlined"
+                                        error={hasErrors.links[index]}
+                                        helperText={errors.links[index]} />
+                                    <FormControlLabel
+                                        control={<Checkbox
+                                            checked={fields.isPermanent[index]}
+                                            id={index.toString()}
+                                            onChange={(event) => this.handleChangeFieldPermanent(index, event)}
+                                            name="checkedA" />}
+                                        label="permanente"
+                                    />
+                                    {/* <TextField
                                         onChange={(event) => this.handleChangeFieldPermanent(index, event)}
                                         value={fields.isPermanent[index]}
                                         className={classes.pairedTextField}
@@ -587,60 +620,60 @@ render() {
                                         variant="outlined"
                                         error={hasErrors.isPermanent[index]}
                                         helperText={errors.isPermanent[index]} /> */}
+                                </div>
+                            )}
+                            <div className={classes.linksButtonContainer}
+                                key="buttons">
+                                <IconButton
+                                    size="medium"
+                                    aria-label="add"
+                                    className={classes.linksButton}
+                                    onClick={this.handleOnClickAddLink}>
+                                    <img src={AddIcon} alt="icono agregar talla" />
+                                </IconButton>
+                                <IconButton
+                                    disabled={this.state.amountOfLinks > 0}
+                                    aria-label="minus"
+                                    className={classes.linksButton}
+                                    onClick={this.handleOnClickRemoveLink}>
+                                    <img src={MinusIcon} alt="icono quitar talla" />
+                                </IconButton>
                             </div>
-                        )}
-                        <div className={classes.linksButtonContainer}
-                            key="buttons">
-                            <IconButton
-                                size="medium"
-                                aria-label="add"
-                                className={classes.linksButton}
-                                onClick={this.handleOnClickAddLink}>
-                                <img src={AddIcon} alt="icono agregar talla" />
-                            </IconButton>
-                            <IconButton
-                                disabled={this.state.amountOfLinks > 0}
-                                aria-label="minus"
-                                className={classes.linksButton}
-                                onClick={this.handleOnClickRemoveLink}>
-                                <img src={MinusIcon} alt="icono quitar talla" />
-                            </IconButton>
                         </div>
-                    </div>
 
-                    <div className={classes.buttonContainer}>
+                        <div className={classes.buttonContainer}>
 
-                        <Button
-                            type="submit"
-                            className={classes.button}
-                            variant="contained"
-                            color="primary">
-                            Guardar
+                            <Button
+                                type="submit"
+                                className={classes.button}
+                                variant="contained"
+                                color="primary">
+                                Guardar
                         </Button>
-                    </div>
+                        </div>
 
-                </form>
-            </Paper>
-            <div>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    open={showAlert}
-                    autoHideDuration={6000}
-                    onClose={this.handleCloseAlert}
-                >
+                    </form>
+                </Paper>
+                <div>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        open={showAlert}
+                        autoHideDuration={6000}
+                        onClose={this.handleCloseAlert}
+                    >
 
-                    <Alert onClose={this.handleCloseAlert} severity={severityAlert}>
-                        {resMessage}
-                    </Alert>
+                        <Alert onClose={this.handleCloseAlert} severity={severityAlert}>
+                            {resMessage}
+                        </Alert>
 
-                </Snackbar>
-            </div>
-        </div>
-    );
-}
+                    </Snackbar>
+                </div>
+            </div >
+        );
+    }
 }
 //the class is exported using the styles defined
 export default withStyles(useStyles)(createArticle)
